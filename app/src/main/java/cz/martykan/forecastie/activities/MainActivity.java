@@ -336,6 +336,29 @@ public class MainActivity extends BaseActivity implements LocationListener {
         new AboutDialogFragment().show(getSupportFragmentManager(), null);
     }
 
+    private void share()
+    {
+        String title = "Current weather \n";
+        String shareContent = "";
+        String todayTemp = todayTemperature.getText().toString();
+        String todayDes = todayDescription.getText().toString();
+        String todayW = todayWind.getText().toString();
+        String todayP = todayPressure.getText().toString();
+        String todayHumid = todayHumidity.getText().toString();
+        String todaySun = todaySunrise.getText().toString();
+        String todaySuns = todaySunset.getText().toString();
+        String todayUV = todayUvIndex.getText().toString();
+        shareContent += todayTemp + "\n" + todayDes + "\n" + todayW + "\n" + todayP + "\n"
+                + todayHumid + "\n" + todaySun + "\n" + todaySuns + "\n" + todayUV;
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, title);
+        intent.putExtra(Intent.EXTRA_TEXT, shareContent);
+
+        startActivity(Intent.createChooser(intent, "공유합니다."));
+    }
+
     public static String getRainString(JSONObject rainObj) {
         String rain = "0";
         if (rainObj != null) {
@@ -705,6 +728,10 @@ public class MainActivity extends BaseActivity implements LocationListener {
         }
         if (id == R.id.action_about) {
             aboutDialog();
+            return true;
+        }
+        if (id == R.id.action_share) {
+            share();
             return true;
         }
         return super.onOptionsItemSelected(item);
